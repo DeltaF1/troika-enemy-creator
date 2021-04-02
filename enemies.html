@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Averia+Sans+Libre:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js"></script>
+        <script type="text/javascript" src="gameData.js"></script>
+        <script type="text/javascript" src="template.js"></script>
+        <script type="text/javascript" src="loader.js"></script>
+        <script type="text/javascript">
+            window.addEventListener("load", () => {
+                fetch("data/enemies.json").then(response => {
+                    if (response.ok) {
+                        response.json().then(addEnemyList);
+                    }
+                }, ()=>{});
+            
+                // Create a blank enemy
+                document.querySelector("#addNew").addEventListener("click", addEnemy)
+                
+                document.querySelector("#saveAll").addEventListener("click", () => {
+                    downloadURI("data:application/json;base64,"+btoa(JSON.stringify(serializeAll())), "enemies.json");
+                });
+                
+                document.querySelector("#fileLoader").addEventListener("change", (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        file
+                          .text()
+                          .then(JSON.parse)
+                          .then(addEnemyList)
+                    }
+                });
+                
+                document.querySelector("#saveString").addEventListener("click", () => {
+                   document.querySelector("#inputString").value = JSON.stringify(serializeAll());
+                });
+                
+                document.querySelector("#loadString").addEventListener("click", () => {
+                    new Promise((resolve, reject) =>
+                        resolve(document.querySelector("#inputString").value)
+                    ).then(JSON.parse)
+                     .then(addEnemyList)
+                });
+                
+                document.querySelector("#autoSave").addEventListener("change", (event) => {
+                    if (!event.target.checked) {
+                        document.querySelector("#autoSaveError").innerText = "";
+                    }
+                });
+                
+                document.querySelector("#container").addEventListener("input", autoSave);
+                document.querySelector("#container").addEventListener("autosave", autoSave);
+            })
+        </script>
+    </head>
+    <body>
+        <img src="compatibility.png" alt="Compatible with Troika"/ id="compatibility">
+        <h1>Troika! Enemy Creator</h1>
+        <details>
+            <summary>Instructions</summary>
+                <p>Press "add new" to add a new enemy card. Any of the fields can be clicked on and edited to add whatever stats/flavour you want.</p>
+                <h2>Images</h2>
+                <p>Drag an image onto an enemy card. Each card can hold only one image so dragging a new one onto it will delete it. Left click an image to add alternate text, right-click to delete the image. Images are saved locally if you are running on a webserver with write access</p>
+        </details>
+        
+        <main>
+            <div id="container"></div>
+            
+            <button id="addNew">Add New</button>
+            <fieldset>
+                <legend>AutoSaving</legend>
+                
+                <label for="autoSave">Auto Save to server</label>
+                <input type="checkbox" id="autoSave" checked="true"/>
+                <p>Note: AutoSaving requires a web server with PUT enabled to store the images and enemy data.</p>
+                <p id="autoSaveError"></p>
+            </fieldset>
+            <fieldset>
+                <legend>File saving</legend>
+                
+                <button id="saveAll">Save all to file</button>
+                <label for="fileLoader">Load from file</label>
+                <input id="fileLoader" type="file"/>
+            </fieldset>
+            <fieldset>
+                <legend>Saving to a string</legend>
+                
+                <button id="saveString">Save to string</button>
+                <button id="loadString">Load from string</button>
+                <label for="inputString">String to load/save from/to:</label>
+                <input type="text" name="inputString" id="inputString"/>
+            </fieldset>
+        </main>
+        <footer>
+            <small>This tool is an independent production by DeltaF1 and is not
+affiliated with the Melsonian Arts Council. Troika compatibility logo Copyright 2019 Sam Mameli under licence to the Melsonian Arts Council. </small>
+        </footer>
+    </body>
+</html>

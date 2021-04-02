@@ -1,0 +1,121 @@
+body {
+    font-family: 'Averia Sans Libre', cursive;
+    background-color: #ece6dc;
+    //background-image: url("compatibility.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover 50%;
+    background-position: center center;
+}
+
+.enemy input, select {
+    font-family: inherit;
+    font-size: inherit;
+    background: none;
+    border: none;
+    appearance: none;
+}
+
+.enemy input[type=number] {
+    -moz-appearance: textfield;
+}
+
+small {
+    font-family: 'Averia Sans Libre', cursive;
+    font-style: italic;
+}
+
+#compatibility {
+    width: 3em;
+    height: 3em;
+    float: right;
+}
+
+#autoSaveError {
+    color: darkred;
+    background: pink;
+}
+
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.enemy {
+    box-shadow: -3px 3px 5px 0px #8E8963;
+    margin: 3px;
+    display: flex;
+    flex-direction: column;
+    min-width: 20em;
+    max-width: 30em;
+    flex-basis: auto;
+    word-wrap: break-word;
+    padding: 1em;
+    background-color: rgb(250,240,240);
+}
+
+.enemy h1,h2,h3,h4 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    word-wrap: break-word;
+}
+
+.flavour {
+    text-align: justify;
+    white-space: pre-line;
+}
+
+.upper-bolded {
+    text-transform: uppercase;
+    font-size: small;
+}
+
+.upper-bolded::first-letter {
+    font-style: bold;
+    font-size: medium;
+}
+
+.upper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.statblock {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.statblock label {
+    padding-right: 3px;
+}
+
+.statblock li {
+    display: inline-block;
+}
+
+.mien {
+    background-color: white;
+    border-collapse: collapse;
+    min-width: 50%;
+    table-layout: fixed;
+}
+
+.mien td,th {
+ 
+    border: 2px solid black;
+}
+
+/* Fix the numbers for Mien rolls*/
+.mien tr td:nth-child(1) {
+    width: 1em;
+    text-align: center;
+}
+
+.enemy img {
+    max-height: 25em;
+    object-fit: contain;
+}
+
